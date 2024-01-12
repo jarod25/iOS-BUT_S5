@@ -14,5 +14,5 @@ struct User: Codable, Hashable {
     var sex: String
     var company: String
     var biography: String
-    var id_store: Int
+    var id: Int
 }

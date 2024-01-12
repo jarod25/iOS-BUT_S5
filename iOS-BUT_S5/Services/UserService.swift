@@ -36,17 +36,18 @@ struct UserService {
         return decodedData
     }
     
-    
-    func createUser(for body: Data) async throws -> [User] {
+    func createUser(for body: User) async throws -> [User] {
         let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/"
         
         guard let url = URL(string: url) else {
             throw UserError.failed
         }
+
+        let jsonData = try? JSONEncoder().encode(body)
         
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
-        req.httpBody = body
+        req.httpBody = jsonData
         
         let (data, response) = try await URLSession.shared.data(for: req)
         
@@ -59,16 +60,18 @@ struct UserService {
         return decodedData
     }
     
-    func editUser(for body: Data, id_user: Int) async throws -> [User] {
+    func editUser(for body: User, id_user: Int) async throws -> [User] {
         let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/update/\(id_user)"
         
         guard let url = URL(string: url) else {
             throw UserError.failed
         }
         
+        let jsonData = try? JSONEncoder().encode(body)
+        
         var req = URLRequest(url: url)
         req.httpMethod = "PUT"
-        req.httpBody = body
+        req.httpBody = jsonData
         
         let (data, response) = try await URLSession.shared.data(for: req)
         

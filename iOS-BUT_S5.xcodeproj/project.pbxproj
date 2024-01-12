@@ -19,6 +19,7 @@
 		E72EF8672B51358700A09321 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72EF8662B51358700A09321 /* UserViewModel.swift */; };
 		E72EF8692B5135AD00A09321 /* UserInfosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72EF8682B5135AD00A09321 /* UserInfosView.swift */; };
 		E72EF86B2B51371000A09321 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72EF86A2B51371000A09321 /* HomeView.swift */; };
+		E764E5A92B5160740003C913 /* NavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E764E5A82B5160740003C913 /* NavBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		E72EF8662B51358700A09321 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		E72EF8682B5135AD00A09321 /* UserInfosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfosView.swift; sourceTree = "<group>"; };
 		E72EF86A2B51371000A09321 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		E764E5A82B5160740003C913 /* NavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				E72EF84B2B51348500A09321 /* ContentView.swift */,
 				E72EF8682B5135AD00A09321 /* UserInfosView.swift */,
 				E72EF86A2B51371000A09321 /* HomeView.swift */,
+				E764E5A82B5160740003C913 /* NavBarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -200,6 +203,7 @@
 				E72EF8692B5135AD00A09321 /* UserInfosView.swift in Sources */,
 				E72EF86B2B51371000A09321 /* HomeView.swift in Sources */,
 				E72EF8652B51356F00A09321 /* StoreViewModel.swift in Sources */,
+				E764E5A92B5160740003C913 /* NavBarView.swift in Sources */,
 				E72EF8612B51352B00A09321 /* UserService.swift in Sources */,
 				E72EF84A2B51348500A09321 /* iOS_BUT_S5App.swift in Sources */,
 				E72EF85F2B5134E800A09321 /* UserModel.swift in Sources */,

@@ -7,11 +7,10 @@
 
 import Foundation
 
-struct Store: Codable, Hashable {
-    
-    var id_store: Int
+struct Store: Codable, Hashable, Identifiable {
+    var id: Int
     var name: String
-    var latitude: String
-    var longitude: String
+    var latitude: Double
+    var longitude: Double
     var users: [User]
 }
