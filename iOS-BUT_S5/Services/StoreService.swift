@@ -15,8 +15,10 @@ enum StoreError: Error {
 
 struct StoreService {
     
+    let baseUrl = "http://10.248.2.189:8000"
+    
     func fetchStore() async throws -> [Store] {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/store"
+        let url = "\(baseUrl)/store"
         
         guard let url = URL(string: url) else {
             throw StoreError.failed

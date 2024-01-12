@@ -21,8 +21,16 @@ struct HomeView: View {
 
                         MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(store.latitude), longitude: CLLocationDegrees(store.longitude))) {
                             Text(store.name)
+                                .font(.caption)
+                                .padding(5)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .opacity(0.8)
+                            
+                            Image(systemName: "mappin")
+                                .foregroundColor(.red)
+                                .imageScale(.large)
                         }
-                        
                         // TODO faire un onTapGesture pour attribuer à selectedStore la veleur de la pin sélectionnée
                     }
                     .sheet(item: $selectedStore) {store in

@@ -18,8 +18,10 @@ enum UserError: Error {
 
 struct UserService {
     
+    let baseUrl = "http://10.248.2.189:8000"
+    
     func fetchStoreUsers(for id_store: Int) async throws -> [User] {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/store/\(id_store)"
+        let url = "\(baseUrl)/user/store/\(id_store)"
         
         guard let url = URL(string: url) else {
             throw UserError.failed
@@ -36,8 +38,10 @@ struct UserService {
         return decodedData
     }
     
-    func createUser(for body: User) async throws -> [User] {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/"
+    func createUser(for body: User) async throws {
+        let url = "\(baseUrl)/user/"
+        
+//        print(body)
         
         guard let url = URL(string: url) else {
             throw UserError.failed
@@ -47,21 +51,18 @@ struct UserService {
         
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = jsonData
         
-        let (data, response) = try await URLSession.shared.data(for: req)
+        let (_, response) = try await URLSession.shared.data(for: req)
         
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+        guard let response = response as? HTTPURLResponse, response.statusCode == 201 else {
             throw UserError.invalidStatusCode
         }
-        
-        let decodedData = try JSONDecoder().decode([User].self, from: data)
-        
-        return decodedData
     }
     
     func editUser(for body: User, id_user: Int) async throws -> [User] {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/update/\(id_user)"
+        let url = "\(baseUrl)/user/update/\(id_user)"
         
         guard let url = URL(string: url) else {
             throw UserError.failed
@@ -85,7 +86,7 @@ struct UserService {
     }
     
     func addUserToStore(for id_user: Int, id_store: Int) async throws {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/inStore/\(id_user)/store/\(id_store)"
+        let url = "\(baseUrl)/user/inStore/\(id_user)/store/\(id_store)"
         
         guard let url = URL(string: url) else {
             throw UserError.failed
@@ -103,7 +104,7 @@ struct UserService {
     }
     
     func removeUserFromStore(for id_user: Int) async throws {
-        let url = "https://projet-ios-jk-sg.iut.lagarde.bzh/user/outStore/\(id_user)"
+        let url = "\(baseUrl)/user/outStore/\(id_user)"
         
         guard let url = URL(string: url) else {
             throw UserError.failed

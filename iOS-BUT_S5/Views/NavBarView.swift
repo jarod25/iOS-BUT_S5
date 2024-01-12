@@ -9,8 +9,22 @@ import SwiftUI
 
 struct NavBarView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+            NavigationView {
+                HomeView()
+//                Color.clear // Placeholder pour le contenu de la vue, invisible
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: {
+//                                UserEditView(user: User)
+                            }) {
+                                Text("Profil")
+                                Image(systemName: "person.crop.circle")
+                                    .imageScale(.large)
+                            }
+                        }
+                    }
+            }
+        }
 }
 
 struct NavBarView_Previews: PreviewProvider {

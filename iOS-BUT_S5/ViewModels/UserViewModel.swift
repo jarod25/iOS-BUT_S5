@@ -39,8 +39,8 @@ class UserViewModel: ObservableObject {
     func addUser(for body: User) async {
         self.state = .loading
         do {
-            let users = try await service.createUser(for: body)
-            self.state = .success(data: users)
+            try await service.createUser(for: body)
+            self.state = .success(data: [])
         } catch {
             self.state = .failed(error: error)
             print(error)
