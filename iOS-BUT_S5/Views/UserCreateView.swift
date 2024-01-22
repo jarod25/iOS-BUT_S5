@@ -18,6 +18,8 @@ struct UserCreateView: View {
     @AppStorage("company") private var company: String = ""
     @AppStorage("biography") private var biography: String = ""
     
+    @State private var currentUser = User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0)
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -115,11 +117,14 @@ struct UserCreateView: View {
                     .padding(.vertical, 50)
                 }
                 .padding(50)
+                
+                NavigationLink(destination: NavBarView(user: currentUser)) {
+                    EmptyView()
+                }
+                .hidden()
+                
                 Button(action: {
                     self.createUser()
-                    NavigationLink(destination: NavBarView()) {
-                        EmptyView()
-                    }
                         }) {
                             Text("Valider")
                                 .font(.headline)
@@ -140,6 +145,7 @@ struct UserCreateView: View {
     func createUser() {
         Task {
             let user = User(id_user: 0, firstName: firstname, lastName: lastname, sex: sex, company: company, biography: biography, id: 0)
+            currentUser = user
             await userViewModel.addUser(for: user)
             UserDefaults.standard.set(id_user, forKey: "id_user")
             UserDefaults.standard.set(firstname, forKey: "firstname")

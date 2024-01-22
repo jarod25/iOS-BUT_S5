@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct NavBarView: View {
+    
+    var user: User
+    
     var body: some View {
             NavigationView {
-                HomeView()
+                HomeView(currentUser: user)
 //                Color.clear // Placeholder pour le contenu de la vue, invisible
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
-//                                UserEditView(user: User)
+                                NavigationLink(destination: UserEditView(user: user)) {
+                                    EmptyView()
+                                }
+                                .hidden()
+                                
                             }) {
                                 Text("Profil")
                                 Image(systemName: "person.crop.circle")
@@ -29,6 +36,6 @@ struct NavBarView: View {
 
 struct NavBarView_Previews: PreviewProvider {
     static var previews: some View {
-        NavBarView()
+        NavBarView(user: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
     }
 }

@@ -11,7 +11,7 @@ import SwiftUI
 struct iOS_BUT_S5App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavBarView(user: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
         }
     }
 }
