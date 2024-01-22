@@ -26,71 +26,11 @@ struct UserEditView: View {
                 Text("Modifier votre profil")
                     .bold()
                     .font(.title)
-                                
+                
                 VStack {
-                    TextField("Prenom", text: $firstname)
-                        .padding(10)
-                        .overlay(
-                            GeometryReader { geometry in
-                                Path { path in
-                                    let width = geometry.size.width
-                                    let height = geometry.size.height
-                                    
-                                    path.move(to: CGPoint(x: 0, y: height))
-                                    path.addLine(to: CGPoint(x: width, y: height))
-                                }
-                                .stroke(Color.gray, lineWidth: 0.5)
-                            }
-                        )
-                    
-                    TextField("Nom", text: $lastname)
-                        .padding(10)
-                        .overlay(
-                            GeometryReader { geometry in
-                                Path { path in
-                                    let width = geometry.size.width
-                                    let height = geometry.size.height
-                                    
-                                    path.move(to: CGPoint(x: 0, y: height))
-                                    path.addLine(to: CGPoint(x: width, y: height))
-                                }
-                                .stroke(Color.gray, lineWidth: 0.5)
-                            }
-                        )
-                    
-                    TextField("Sexe", text: $sex)
-                        .padding(10)
-                        .overlay(
-                            GeometryReader { geometry in
-                                Path { path in
-                                    let width = geometry.size.width
-                                    let height = geometry.size.height
-                                    
-                                    path.move(to: CGPoint(x: 0, y: height))
-                                    path.addLine(to: CGPoint(x: width, y: height))
-                                }
-                                .stroke(Color.gray, lineWidth: 0.5)
-                            }
-                        )
-                    
-                    TextField("Entreprise", text: $company)
-                        .padding(10)
-                        .overlay(
-                            GeometryReader { geometry in
-                                Path { path in
-                                    let width = geometry.size.width
-                                    let height = geometry.size.height
-                                    
-                                    path.move(to: CGPoint(x: 0, y: height))
-                                    path.addLine(to: CGPoint(x: width, y: height))
-                                }
-                                .stroke(Color.gray, lineWidth: 0.5)
-                            }
-                        )
-                    
                     HStack {
-                        Text("Biographie")
-                        TextField(user.biography, text: $biography)
+                        Text("Prenom")
+                        TextField(user.firstName, text: $firstname)
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -104,6 +44,86 @@ struct UserEditView: View {
                                     .stroke(Color.gray, lineWidth: 0.5)
                                 }
                             )
+                    }
+                    
+                    HStack {
+                        Text("Nom")
+                        TextField(user.lastName, text: $lastname)
+                            .padding(10)
+                            .overlay(
+                                GeometryReader { geometry in
+                                    Path { path in
+                                        let width = geometry.size.width
+                                        let height = geometry.size.height
+                                        
+                                        path.move(to: CGPoint(x: 0, y: height))
+                                        path.addLine(to: CGPoint(x: width, y: height))
+                                    }
+                                    .stroke(Color.gray, lineWidth: 0.5)
+                                }
+                            )
+                    }
+                    
+                    HStack {
+                        Text("Sexe")
+                        TextField(user.sex, text: $sex)
+                            .padding(10)
+                            .overlay(
+                                GeometryReader { geometry in
+                                    Path { path in
+                                        let width = geometry.size.width
+                                        let height = geometry.size.height
+                                        
+                                        path.move(to: CGPoint(x: 0, y: height))
+                                        path.addLine(to: CGPoint(x: width, y: height))
+                                    }
+                                    .stroke(Color.gray, lineWidth: 0.5)
+                                }
+                            )
+                    }
+                    
+                    HStack {
+                        Text("Entreprise")
+                        TextField(user.company, text: $company)
+                            .padding(10)
+                            .overlay(
+                                GeometryReader { geometry in
+                                    Path { path in
+                                        let width = geometry.size.width
+                                        let height = geometry.size.height
+                                        
+                                        path.move(to: CGPoint(x: 0, y: height))
+                                        path.addLine(to: CGPoint(x: width, y: height))
+                                    }
+                                    .stroke(Color.gray, lineWidth: 0.5)
+                                }
+                            )
+                    }
+                    
+                    VStack {
+                        Text("Biographie")
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: $biography)
+                                .padding(10)
+                                .overlay(
+                                    GeometryReader { geometry in
+                                        Path { path in
+                                            let width = geometry.size.width
+                                            let height = geometry.size.height
+                                            
+                                            path.move(to: CGPoint(x: 0, y: height))
+                                            path.addLine(to: CGPoint(x: width, y: height))
+                                        }
+                                        .stroke(Color.gray, lineWidth: 0.5)
+                                    }
+                                )
+                            if biography.isEmpty {
+                                Text(user.biography)
+                                    .foregroundColor(.secondary)
+                                    .padding(.leading)
+                                    .padding(.top)
+                            }
+                        }
                         
                     }
                 }

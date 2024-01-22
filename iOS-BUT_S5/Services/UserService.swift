@@ -18,8 +18,8 @@ enum UserError: Error {
 
 struct UserService {
     
-    let baseUrl = "http://10.248.2.189:8000"
-    
+    let baseUrl = "http://10.248.3.104:8000"
+
     func fetchStoreUsers(for id_store: Int) async throws -> [User] {
         let url = "\(baseUrl)/user/store/\(id_store)"
         
