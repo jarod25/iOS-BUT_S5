@@ -9,17 +9,17 @@ import SwiftUI
 
 struct UserEditView: View {
     
-    @StateObject var userViewModel = UserViewModel(service: UserService())
+    @StateObject var userViewModel: UserViewModel
     
-    @State private var firstname = ""
-    @State private var lastname = ""
-    @State private var sex = ""
-    @State private var company = ""
-    @State private var biography = ""
-    
-    var user: User
-    
+    @State private var firstname: String = ""
+    @State private var lastname: String = ""
+    @State private var sex: String = ""
+    @State private var company: String = ""
+    @State private var biography: String = ""
+        
     var body: some View {
+        
+        let user = userViewModel.currentUser
         VStack {
             Spacer()
             VStack {
@@ -151,14 +151,15 @@ struct UserEditView: View {
     
     func editUser() {
         Task {
-            let this_user = User(id_user: 0, firstName: firstname, lastName: lastname, sex: sex, company: company, biography: biography, id: 0)
-            await userViewModel.updateUser(for: this_user, id_user: user.id_user)
+            let user = User(id_user: userViewModel.currentUser.id_user, firstName: firstname, lastName: lastname, sex: sex, company: company, biography: biography, id: 0)
+            userViewModel.currentUser = user
+            await userViewModel.updateUser(for: user, id_user: userViewModel.currentUser.id_user)
         }
     }
 }
 
-struct UserEditView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserEditView(user: User(id_user: 0, firstName: "Oui", lastName: "Oui", sex: "Oui", company: "Oui", biography: "Oui", id: 0))
-    }
-}
+//struct UserEditView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UserEditView(user: User(id_user: 0, firstName: "Oui", lastName: "Oui", sex: "Oui", company: "Oui", biography: "Oui", id: 0))
+//    }
+//}

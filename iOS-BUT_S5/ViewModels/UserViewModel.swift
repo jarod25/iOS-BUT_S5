@@ -71,7 +71,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func removeUserFromStore(for id_user: Int, id_store: Int) async {
+    func removeUserFromStore(for id_user: Int) async {
         self.state = .loading
         do {
             try await service.removeUserFromStore(for: id_user)

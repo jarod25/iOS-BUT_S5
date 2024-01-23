@@ -42,7 +42,7 @@ struct MapView: View {
                         
                     }
                     .sheet(item: $selectedStore) {store in
-                        StoreDetails(store: store, userViewModel)
+                        StoreDetails(userViewModel: userViewModel, store: store)
                     }
                 case .loading:
                     ProgressView()
@@ -56,10 +56,10 @@ struct MapView: View {
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapView(currentUser: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
-    }
-}
+//struct HomeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MapView(currentUser: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
+//    }
+//}
 
 

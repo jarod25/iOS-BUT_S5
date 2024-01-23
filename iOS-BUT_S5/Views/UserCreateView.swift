@@ -130,11 +130,11 @@ struct UserCreateView: View {
                                 .padding(.horizontal, 20)
                         }
                 
-                NavigationLink(destination: NavBarView(), isActive: $isRedirecting) {
+                NavigationLink(destination: NavBarView(userViewModel: userViewModel), isActive: $isRedirecting) {
                     EmptyView()
                 }
                 .hidden()
-                .navigationBarBackButtonHidden()
+                .navigationBarBackButtonHidden(true)
                 Spacer()
 
             }

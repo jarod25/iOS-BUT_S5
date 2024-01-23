@@ -9,34 +9,30 @@ import SwiftUI
 
 struct NavBarView: View {
     
-    var user: User
+    @StateObject var userViewModel: UserViewModel
     
+    @State private var isRedirecting = false
+        
     var body: some View {
-            NavigationView {
-                MapView(currentUser: user)
-//                Color.clear // Placeholder pour le contenu de la vue, invisible
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            Button(action: {
-                                NavigationLink(destination: UserEditView(user: user)) {
-                                    EmptyView()
-                                }
-                                .hidden()
-                                
-                            
-                            }) {
-                                Text("Profil")
-                                Image(systemName: "person.crop.circle")
-                                    .imageScale(.large)
-                            }
-                        }
+        MapView(userViewModel: userViewModel)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        isRedirecting = true
+                    }) {
+                        Text("Profil")
+                        Image(systemName: "person.crop.circle")
+                            .imageScale(.large)
                     }
+                }
             }
-        }
-}
-
-struct NavBarView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavBarView(user: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
+            .background(
+                NavigationLink(destination: UserEditView(userViewModel: userViewModel), isActive: $isRedirecting) {
+                    EmptyView()
+                }
+                .hidden()
+                .navigationBarBackButtonHidden(true)
+            )
     }
 }
+
