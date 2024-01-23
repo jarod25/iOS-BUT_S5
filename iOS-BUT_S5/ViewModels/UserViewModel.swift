@@ -17,6 +17,8 @@ class UserViewModel: ObservableObject {
         case failed(error: Error)
     }
     
+    @Published var currentUser: User = User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0)
+    
     @Published var state: State = .notAvailable
     
     private let service: UserService

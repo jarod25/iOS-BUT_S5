@@ -9,16 +9,15 @@ import SwiftUI
 
 struct UserCreateView: View {
     
-    @StateObject var userViewModel = UserViewModel(service: UserService())
+    @StateObject var userViewModel:UserViewModel
     
-    @AppStorage("id_user") private var id_user: Int = 0
-    @AppStorage("firstname") private var firstname: String = ""
-    @AppStorage("lastname") private var lastname: String = ""
-    @AppStorage("sex") private var sex: String = ""
-    @AppStorage("company") private var company: String = ""
-    @AppStorage("biography") private var biography: String = ""
-    
-    @State private var currentUser = User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0)
+    @State private var firstname: String = ""
+    @State private var lastname: String = ""
+    @State private var sex: String = ""
+    @State private var company: String = ""
+    @State private var biography: String = ""
+
+    @State private var isRedirecting = false
     
     var body: some View {
         NavigationView {
@@ -117,14 +116,9 @@ struct UserCreateView: View {
                     .padding(.vertical, 50)
                 }
                 .padding(50)
-                
-                NavigationLink(destination: NavBarView(user: currentUser)) {
-                    EmptyView()
-                }
-                .hidden()
-                
                 Button(action: {
                     self.createUser()
+                    isRedirecting = true
                         }) {
                             Text("Valider")
                                 .font(.headline)
@@ -135,6 +129,12 @@ struct UserCreateView: View {
                                 .cornerRadius(40)
                                 .padding(.horizontal, 20)
                         }
+                
+                NavigationLink(destination: NavBarView(), isActive: $isRedirecting) {
+                    EmptyView()
+                }
+                .hidden()
+                .navigationBarBackButtonHidden()
                 Spacer()
 
             }
@@ -145,20 +145,8 @@ struct UserCreateView: View {
     func createUser() {
         Task {
             let user = User(id_user: 0, firstName: firstname, lastName: lastname, sex: sex, company: company, biography: biography, id: 0)
-            currentUser = user
+            userViewModel.currentUser = user
             await userViewModel.addUser(for: user)
-            UserDefaults.standard.set(id_user, forKey: "id_user")
-            UserDefaults.standard.set(firstname, forKey: "firstname")
-            UserDefaults.standard.set(lastname, forKey: "lastname")
-            UserDefaults.standard.set(sex, forKey: "sex")
-            UserDefaults.standard.set(company, forKey: "company")
-            UserDefaults.standard.set(biography, forKey: "biography")
         }
-    }
-}
-
-struct UserCreateView_Previews: PreviewProvider {
-    static var previews: some View {
-        UserCreateView()
     }
 }

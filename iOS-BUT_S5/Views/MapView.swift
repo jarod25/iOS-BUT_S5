@@ -8,12 +8,13 @@
 import SwiftUI
 import MapKit
 
-struct HomeView: View {
+struct MapView: View {
     
     @StateObject var storeViewModel = StoreViewModel(service: StoreService())
+    @StateObject var userViewModel: UserViewModel
+    
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 47.637863, longitude: 6.858801), span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
     @State private var selectedStore: Store?
-    @State var currentUser: User
 
     var body: some View {
         ZStack {
@@ -41,7 +42,7 @@ struct HomeView: View {
                         
                     }
                     .sheet(item: $selectedStore) {store in
-                        StoreDetails(store: store, currentUser: currentUser)
+                        StoreDetails(store: store, userViewModel)
                     }
                 case .loading:
                     ProgressView()
@@ -55,10 +56,10 @@ struct HomeView: View {
     }
 }
 
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        HomeView(user: currentUser)
-//    }
-//}
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView(currentUser: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
+    }
+}
 
 

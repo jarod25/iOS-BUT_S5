@@ -13,7 +13,7 @@ struct NavBarView: View {
     
     var body: some View {
             NavigationView {
-                HomeView(currentUser: user)
+                MapView(currentUser: user)
 //                Color.clear // Placeholder pour le contenu de la vue, invisible
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
@@ -23,6 +23,7 @@ struct NavBarView: View {
                                 }
                                 .hidden()
                                 
+                            
                             }) {
                                 Text("Profil")
                                 Image(systemName: "person.crop.circle")

@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct iOS_BUT_S5App: App {
+    
+    @StateObject var userViewModel = UserViewModel(service: UserService())
+    
     var body: some Scene {
         WindowGroup {
-            NavBarView(user: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
+            UserCreateView(userViewModel: userViewModel)
         }
     }
 }
