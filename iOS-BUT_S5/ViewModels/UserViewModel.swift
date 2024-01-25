@@ -38,6 +38,19 @@ class UserViewModel: ObservableObject {
         }
     }
     
+    func getLastUserId() async -> Int {
+        self.state = .loading
+        do {
+            let id = try await service.fetchLastUserId()
+            self.state = .success(data: [])
+            return id
+        } catch {
+            self.state = .failed(error: error)
+            print(error)
+            return 0
+        }
+    }
+    
     func addUser(for body: User) async {
         self.state = .loading
         do {
@@ -52,8 +65,8 @@ class UserViewModel: ObservableObject {
     func updateUser(for body: User, id_user: Int) async {
         self.state = .loading
         do {
-            let users = try await service.editUser(for: body, id_user: id_user)
-            self.state = .success(data: users)
+            let _: () = try await service.editUser(for: body, id_user: id_user)
+            self.state = .success(data: [])
         } catch {
             self.state = .failed(error: error)
             print(error)

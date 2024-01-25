@@ -38,10 +38,24 @@ struct UserService {
         return decodedData
     }
     
+    func fetchLastUserId() async throws -> Int {
+        let url = "\(baseUrl)/user/lastId"
+        
+        guard let url = URL(string: url) else {
+            throw UserError.failed
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw UserError.invalidStatusCode
+        }
+        let decodedData = try JSONDecoder().decode(Int.self, from: data)
+        return decodedData
+    }
+    
     func createUser(for body: User) async throws {
         let url = "\(baseUrl)/user/"
-        
-//        print(body)
         
         guard let url = URL(string: url) else {
             throw UserError.failed
@@ -61,28 +75,26 @@ struct UserService {
         }
     }
     
-    func editUser(for body: User, id_user: Int) async throws -> [User] {
+    func editUser(for body: User, id_user: Int) async throws {
         let url = "\(baseUrl)/user/update/\(id_user)"
-        
+//        print(id_user)
+//        print(body)
         guard let url = URL(string: url) else {
             throw UserError.failed
         }
         
         let jsonData = try? JSONEncoder().encode(body)
-        
+//        print(jsonData)
         var req = URLRequest(url: url)
         req.httpMethod = "PUT"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = jsonData
-        
-        let (data, response) = try await URLSession.shared.data(for: req)
+//        print(req)
+        let (_, response) = try await URLSession.shared.data(for: req)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
             throw UserError.invalidStatusCode
         }
-        
-        let decodedData = try JSONDecoder().decode([User].self, from: data)
-        
-        return decodedData
     }
     
     func addUserToStore(for id_user: Int, id_store: Int) async throws {

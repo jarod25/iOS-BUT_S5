@@ -41,6 +41,7 @@ struct MapView: View {
                         }
                         
                     }
+                    .ignoresSafeArea()
                     .sheet(item: $selectedStore) {store in
                         StoreDetails(userViewModel: userViewModel, store: store)
                     }
@@ -55,11 +56,3 @@ struct MapView: View {
         }
     }
 }
-
-//struct HomeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MapView(currentUser: User(id_user: 0, firstName: "", lastName: "", sex: "", company: "", biography: "", id: 0))
-//    }
-//}
-
-

@@ -12,18 +12,21 @@ struct UserDetails: View {
     @State var user: User
     
     var body: some View {
-        HStack {
-            VStack() {
+            VStack(spacing: 8) {
                 Text(user.firstName + " " + user.lastName)
                     .font(.title)
-                
+                    .foregroundColor(.black)
+
                 Text(user.company)
                     .font(.title3)
-                
+                    .foregroundColor(.black)
+
                 Text(user.biography)
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
             }
+            
         }
-    }
 }
 
 struct UserDetails_Previews: PreviewProvider {

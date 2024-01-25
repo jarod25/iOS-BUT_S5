@@ -15,17 +15,6 @@ struct NavBarView: View {
         
     var body: some View {
         MapView(userViewModel: userViewModel)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isRedirecting = true
-                    }) {
-                        Text("Profil")
-                        Image(systemName: "person.crop.circle")
-                            .imageScale(.large)
-                    }
-                }
-            }
             .background(
                 NavigationLink(destination: UserEditView(userViewModel: userViewModel), isActive: $isRedirecting) {
                     EmptyView()
@@ -33,6 +22,41 @@ struct NavBarView: View {
                 .hidden()
                 .navigationBarBackButtonHidden(true)
             )
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                            .frame(height: 30)
+
+                        HStack {
+                            Button(action: {
+                                isRedirecting = true
+                            }) {
+                                Text("Profil")
+                                    .foregroundColor(.blue)
+                            }
+
+                            Image(systemName: "person.crop.circle")
+                                .imageScale(.large)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+            .task {
+                self.addIdUser()
+            }
+    }
+
+    
+    func addIdUser() {
+        Task {
+            let user_id = await userViewModel.getLastUserId()
+            let user = User(id_user: user_id, firstName: userViewModel.currentUser.firstName, lastName: userViewModel.currentUser.lastName, sex: userViewModel.currentUser.sex, company: userViewModel.currentUser.company, biography: userViewModel.currentUser.biography, id: 0)
+            userViewModel.currentUser = user
+            await userViewModel.updateUser(for: user, id_user: user_id)
+        }
     }
 }
 

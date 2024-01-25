@@ -10,67 +10,137 @@ import SwiftUI
 struct StoreDetails: View {
     
     @StateObject var userViewModel: UserViewModel
-
     @State var store: Store
+    @State private var showingPopup = false
+    @State private var selectedUser: User?
     
     var body: some View {
-        VStack {
-            switch userViewModel.state {
-            case .success(data: let users):
-                let userIsInStore = users.contains(userViewModel.currentUser)
-                
-                VStack {
-                    Spacer()
-                    Spacer()
+        let currentUser: User = userViewModel.currentUser
+        NavigationView {
+            VStack {
+                switch userViewModel.state {
+                case .success(data: let users):
+                    let userIsInStore = users.contains { $0.id_user == currentUser.id_user }
                     
-                    Text(store.name)
-                        .font(.title)
-                    
-                    Spacer()
-                    
-                    if (users.isEmpty) {
-                        Text("Personne n'est présent")
-                            .bold()
-                    }
-                    else {
-                        Text("Personnes présentes :")
+                    VStack {
+                        Spacer()
+                        Spacer()
                         
-                        ScrollView(.horizontal) {
-                            HStack {
-                                if (userIsInStore) {
-                                    UserDetails(user: userViewModel.currentUser)
-                                }
-                                ForEach(users, id: \.self) { user in
-                                    if (user != userViewModel.currentUser) {
-                                        UserDetails(user: user)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Spacer()
-                }
-                
-                HStack {
-                    Button(action: {
-                        if(userIsInStore) {
-                            self.deleteLocation()
+                        Text(store.name)
+                            .font(.title)
+                        
+                        Spacer()
+                        
+                        if (users.isEmpty) {
+                            Text("Personne n'est présent")
+                                .bold()
                         }
                         else {
-                            addLocation()
+                            Text("Personnes présentes :")
+                                .bold()
+                            ZStack {
+                                ScrollView {
+                                    VStack(spacing: 10) {
+                                        if userIsInStore {
+                                            Button(action: {
+                                                self.selectedUser = currentUser
+                                                self.showingPopup = true
+                                            }) {
+                                                UserDetails(user: currentUser)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .background(Color.white.opacity(0.95))
+                                                    .cornerRadius(10)
+                                                    .shadow(radius: 5)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .stroke(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing), lineWidth: 2)
+                                                    )
+                                                    .padding(.horizontal)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                                            }
+                                        }
+                                        ForEach(users.filter { $0.id_user != currentUser.id_user }, id: \.self) { user in
+                                            Button(action: {
+                                                self.selectedUser = user
+                                                self.showingPopup = true
+                                            }) {
+                                                UserDetails(user: user)
+                                                    .padding()
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                    .background(Color.white.opacity(0.95))
+                                                    .cornerRadius(10)
+                                                    .shadow(radius: 5)
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 10)
+                                                            .stroke(Color.gray, lineWidth: 2)
+                                                    )
+                                                    .padding(.horizontal)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal)
+                                }
+                                if showingPopup && (selectedUser != nil) {
+                                    ZStack {
+                                        Color.white.opacity(0.95)
+                                            .edgesIgnoringSafeArea(.all)
+                                            .zIndex(1)
+
+                                        UserDetails(user: selectedUser!)
+                                            .frame(width: 300, height: 400)
+                                            .background(Color.white)
+                                            .cornerRadius(12)
+                                            .shadow(radius: 10)
+                                            .overlay(
+                                                Button(action: {
+                                                    showingPopup = false
+                                                }) {
+                                                    Image(systemName: "xmark.circle.fill")
+                                                        .padding()
+                                                        .foregroundColor(.gray)
+                                                },
+                                                alignment: .topTrailing
+                                            )
+                                            .zIndex(2)
+                                        }
+                                        .transition(.scale)
+                                    }
+                                }
+                                .animation(.default, value: showingPopup)
                         }
-                    }) {
-                        Text(userIsInStore ? "J'y suis" : "Je n'y suis plus")
+                        Spacer()
                     }
+                    
+                    HStack {
+                        Button(action: {
+                            if(userIsInStore) {
+                                self.deleteLocation()
+                            }
+                            else {
+                                self.addLocation()
+                            }
+                        }) {
+                            Text(userIsInStore ? "Je n'y suis plus" : "J'y suis")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .frame(minWidth: 0, maxWidth: 150)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                                .cornerRadius(40)
+                                .padding(.horizontal, 20)
+                        }
+                    }
+                case .loading:
+                    ProgressView()
+                default:
+                    Text("Une erreur est survenue")
                 }
-            case .loading:
-                ProgressView()
-            default:
-                Text("Une erreur est survenue")
             }
-        }
-        .task {
-            await userViewModel.getUserByStores(for: store.id)
+            .task {
+                await userViewModel.getUserByStores(for: store.id)
+            }
         }
     }
     
@@ -88,9 +158,3 @@ struct StoreDetails: View {
         }
     }
 }
-
-//struct StoreDetails_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StoreDetails()
-//    }
-//}

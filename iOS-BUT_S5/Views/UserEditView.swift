@@ -9,13 +9,22 @@ import SwiftUI
 
 struct UserEditView: View {
     
-    @StateObject var userViewModel: UserViewModel
-    
-    @State private var firstname: String = ""
-    @State private var lastname: String = ""
-    @State private var sex: String = ""
-    @State private var company: String = ""
-    @State private var biography: String = ""
+    @ObservedObject var userViewModel: UserViewModel
+    @State private var firstname: String
+    @State private var lastname: String
+    @State private var sex: String
+    @State private var company: String
+    @State private var biography: String
+
+    init(userViewModel: UserViewModel) {
+        self.userViewModel = userViewModel
+        let user = userViewModel.currentUser
+        _firstname = State(initialValue: user.firstName)
+        _lastname = State(initialValue: user.lastName)
+        _sex = State(initialValue: user.sex)
+        _company = State(initialValue: user.company)
+        _biography = State(initialValue: user.biography)
+    }
         
     var body: some View {
         
@@ -30,7 +39,7 @@ struct UserEditView: View {
                 VStack {
                     HStack {
                         Text("Prenom")
-                        TextField(user.firstName, text: $firstname)
+                        TextField("", text: $firstname)
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -48,7 +57,7 @@ struct UserEditView: View {
                     
                     HStack {
                         Text("Nom")
-                        TextField(user.lastName, text: $lastname)
+                        TextField("", text: $lastname)
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -66,7 +75,7 @@ struct UserEditView: View {
                     
                     HStack {
                         Text("Sexe")
-                        TextField(user.sex, text: $sex)
+                        TextField("",text: $sex)
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -84,7 +93,7 @@ struct UserEditView: View {
                     
                     HStack {
                         Text("Entreprise")
-                        TextField(user.company, text: $company)
+                        TextField("", text: $company)
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -117,14 +126,7 @@ struct UserEditView: View {
                                         .stroke(Color.gray, lineWidth: 0.5)
                                     }
                                 )
-                            if biography.isEmpty {
-                                Text(user.biography)
-                                    .foregroundColor(.secondary)
-                                    .padding(.leading)
-                                    .padding(.top)
-                            }
                         }
-                        
                     }
                 }
                 .lineSpacing(15)
@@ -146,7 +148,6 @@ struct UserEditView: View {
             Spacer()
 
         }
-        
     }
     
     func editUser() {
@@ -157,9 +158,3 @@ struct UserEditView: View {
         }
     }
 }
-
-//struct UserEditView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        UserEditView(user: User(id_user: 0, firstName: "Oui", lastName: "Oui", sex: "Oui", company: "Oui", biography: "Oui", id: 0))
-//    }
-//}
