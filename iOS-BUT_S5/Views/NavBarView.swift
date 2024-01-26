@@ -35,11 +35,10 @@ struct NavBarView: View {
                             }) {
                                 Text("Profil")
                                     .foregroundColor(.blue)
+                                Image(systemName: "person.crop.circle")
+                                    .imageScale(.large)
+                                    .foregroundColor(.blue)
                             }
-
-                            Image(systemName: "person.crop.circle")
-                                .imageScale(.large)
-                                .foregroundColor(.blue)
                         }
                     }
                 }

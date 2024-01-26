@@ -15,7 +15,9 @@ struct UserEditView: View {
     @State private var sex: String
     @State private var company: String
     @State private var biography: String
-
+    
+    @State private var isFormValid: Bool = false
+    
     init(userViewModel: UserViewModel) {
         self.userViewModel = userViewModel
         let user = userViewModel.currentUser
@@ -39,6 +41,7 @@ struct UserEditView: View {
                     HStack {
                         Text("Prenom")
                         TextField("", text: $firstname)
+                            .onChange(of: firstname) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -57,6 +60,7 @@ struct UserEditView: View {
                     HStack {
                         Text("Nom")
                         TextField("", text: $lastname)
+                            .onChange(of: lastname) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -75,6 +79,7 @@ struct UserEditView: View {
                     HStack {
                         Text("Sexe")
                         TextField("",text: $sex)
+                            .onChange(of: sex) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -93,6 +98,7 @@ struct UserEditView: View {
                     HStack {
                         Text("Entreprise")
                         TextField("", text: $company)
+                            .onChange(of: company) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -110,8 +116,10 @@ struct UserEditView: View {
                     
                     VStack {
                         Text("Biographie")
+                            .padding(.top, 25)
                         ZStack(alignment: .topLeading) {
                             TextEditor(text: $biography)
+                                .onChange(of: biography) { _ in validateForm()}
                                 .padding(10)
                                 .overlay(
                                     GeometryReader { geometry in
@@ -144,9 +152,15 @@ struct UserEditView: View {
                             .cornerRadius(40)
                             .padding(.horizontal, 20)
                     }
+                    .disabled(!isFormValid)
+
             Spacer()
 
         }
+    }
+    
+    private func validateForm() {
+        isFormValid = !firstname.isEmpty && !lastname.isEmpty && !sex.isEmpty && !company.isEmpty && !biography.isEmpty
     }
     
     func editUser() {

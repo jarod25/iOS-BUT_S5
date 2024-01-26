@@ -16,6 +16,8 @@ struct UserCreateView: View {
     @State private var sex: String = ""
     @State private var company: String = ""
     @State private var biography: String = ""
+    
+    @State private var isFormValid: Bool = false
 
     @State private var isRedirecting = false
     
@@ -30,6 +32,7 @@ struct UserCreateView: View {
                                         
                     VStack {
                         TextField("Prenom", text: $firstname)
+                            .onChange(of: firstname) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -45,6 +48,7 @@ struct UserCreateView: View {
                             )
                         
                         TextField("Nom", text: $lastname)
+                            .onChange(of: lastname) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -60,6 +64,7 @@ struct UserCreateView: View {
                             )
      
                         TextField("Sexe", text: $sex)
+                            .onChange(of: sex) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -75,6 +80,7 @@ struct UserCreateView: View {
                             )
                  
                         TextField("Entreprise", text: $company)
+                            .onChange(of: company) { _ in validateForm()}
                             .padding(10)
                             .overlay(
                                 GeometryReader { geometry in
@@ -90,6 +96,7 @@ struct UserCreateView: View {
                             )
                         ZStack(alignment: .topLeading) {
                             TextEditor(text: $biography)
+                                .onChange(of: biography) { _ in validateForm()}
                                 .padding(10)
                                 .overlay(
                                     GeometryReader { geometry in
@@ -129,6 +136,7 @@ struct UserCreateView: View {
                                 .cornerRadius(40)
                                 .padding(.horizontal, 20)
                         }
+                        .disabled(!isFormValid)
                 
                 NavigationLink(destination: NavBarView(userViewModel: userViewModel), isActive: $isRedirecting) {
                     EmptyView()
@@ -140,6 +148,10 @@ struct UserCreateView: View {
             }
             
         }
+    }
+    
+    private func validateForm() {
+        isFormValid = !firstname.isEmpty && !lastname.isEmpty && !sex.isEmpty && !company.isEmpty && !biography.isEmpty
     }
     
     func createUser() {

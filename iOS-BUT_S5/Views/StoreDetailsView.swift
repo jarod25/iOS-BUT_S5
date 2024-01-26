@@ -114,22 +114,24 @@ struct StoreDetailsView: View {
                     }
                     
                     HStack {
-                        Button(action: {
-                            if(userIsInStore) {
-                                self.deleteLocation()
+                        if(!showingPopup) {
+                            Button(action: {
+                                if(userIsInStore) {
+                                    self.deleteLocation()
+                                }
+                                else {
+                                    self.addLocation()
+                                }
+                            }) {
+                                Text(userIsInStore ? "Je n'y suis plus" : "J'y suis")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                                    .frame(minWidth: 0, maxWidth: 150)
+                                    .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                                    .cornerRadius(40)
+                                    .padding(.horizontal, 20)
                             }
-                            else {
-                                self.addLocation()
-                            }
-                        }) {
-                            Text(userIsInStore ? "Je n'y suis plus" : "J'y suis")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(minWidth: 0, maxWidth: 150)
-                                .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
-                                .cornerRadius(40)
-                                .padding(.horizontal, 20)
                         }
                     }
                 case .loading:

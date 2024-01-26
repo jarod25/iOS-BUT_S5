@@ -13,6 +13,8 @@ struct UserDetailsView: View {
     
     var body: some View {
             VStack(spacing: 8) {
+                Spacer()
+                
                 Text(user.firstName + " " + user.lastName)
                     .font(.title)
                     .foregroundColor(.black)
@@ -20,15 +22,21 @@ struct UserDetailsView: View {
                 Text(user.sex)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
-
+                    .padding(.bottom, 5)
+                
                 Text(user.company)
                     .font(.title3)
                     .foregroundColor(.black)
+                    .padding(.bottom, 5)
 
                 Text(user.biography)
                     .foregroundColor(.black)
                     .multilineTextAlignment(.center)
-            }
+                    .padding(.bottom, 5)
+                
+                Spacer()
+                
+            }.padding(10)
             
         }
 }
