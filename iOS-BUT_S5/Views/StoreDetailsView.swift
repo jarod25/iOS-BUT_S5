@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StoreDetails: View {
+struct StoreDetailsView: View {
     
     @StateObject var userViewModel: UserViewModel
     @State var store: Store
@@ -46,7 +46,7 @@ struct StoreDetails: View {
                                                 self.selectedUser = currentUser
                                                 self.showingPopup = true
                                             }) {
-                                                UserDetails(user: currentUser)
+                                                UserCardView(user: currentUser)
                                                     .padding()
                                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                     .background(Color.white.opacity(0.95))
@@ -65,7 +65,7 @@ struct StoreDetails: View {
                                                 self.selectedUser = user
                                                 self.showingPopup = true
                                             }) {
-                                                UserDetails(user: user)
+                                                UserCardView(user: user)
                                                     .padding()
                                                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                     .background(Color.white.opacity(0.95))
@@ -88,7 +88,7 @@ struct StoreDetails: View {
                                             .edgesIgnoringSafeArea(.all)
                                             .zIndex(1)
 
-                                        UserDetails(user: selectedUser!)
+                                        UserDetailsView(user: selectedUser!)
                                             .frame(width: 300, height: 400)
                                             .background(Color.white)
                                             .cornerRadius(12)

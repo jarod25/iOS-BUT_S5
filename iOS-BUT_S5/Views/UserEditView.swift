@@ -28,7 +28,6 @@ struct UserEditView: View {
         
     var body: some View {
         
-        let user = userViewModel.currentUser
         VStack {
             Spacer()
             VStack {

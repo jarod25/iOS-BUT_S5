@@ -43,7 +43,7 @@ struct MapView: View {
                     }
                     .ignoresSafeArea()
                     .sheet(item: $selectedStore) {store in
-                        StoreDetails(userViewModel: userViewModel, store: store)
+                        StoreDetailsView(userViewModel: userViewModel, store: store)
                     }
                 case .loading:
                     ProgressView()
